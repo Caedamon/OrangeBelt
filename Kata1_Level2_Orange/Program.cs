@@ -18,5 +18,55 @@
 
 namespace Kata1_2
 {
-    
+    public class Character
+    {
+        public string Name { get; set; }
+        public int Health { get; set; }
+        public Action PrimaryAction { get; set; }
+
+        public Character(string name, int health)
+        {
+            Name = name;
+            Health = health;
+        }
+
+        public void ExecutePrimaryAction()
+        {
+            PrimaryAction?.Invoke();
+        }
+    }
+
+    public interface ICharacterRole
+    {
+        void AssignPrimaryAction(Character character, List<Character> characters);
+    }
+
+    public class WarriorRole : ICharacterRole
+    {
+        private Action<Character> AttackAction => character =>
+        {
+            Console.WriteLine($"{character.Name} charges with a fierce attack!");
+        };
+
+        public void AssignPrimaryAction(Character character, List<Character> characters)
+        {
+            character.PrimaryAction = () =>
+            {
+                if (character.Health < 50)
+                {
+                    Console.WriteLine($"{character.Name} is attacking first due to low health!");
+                }
+                AttackAction(character);
+            }
+        }
+    }
+
+    public class HealerRole : ICharacterRole
+    {
+        private Action<Character, Character> HealAction => (healer, target) =>
+        {
+            Console.WriteLine($"{healer.Name} heals {target.Name} for 15 health!");
+            target.Health += 15;
+        };
+    }
 }
