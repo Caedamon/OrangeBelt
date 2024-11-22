@@ -56,8 +56,9 @@ namespace Kata1_2
                 {
                     Console.WriteLine($"{character.Name} is attacking first due to low health!");
                 }
+
                 AttackAction(character);
-            }
+            };
         }
     }
 
@@ -68,5 +69,53 @@ namespace Kata1_2
             Console.WriteLine($"{healer.Name} heals {target.Name} for 15 health!");
             target.Health += 15;
         };
+    }
+    
+    public void AssignPrimaryAction(Character character, List<Character> characters)
+    {
+        character.PrimaryAction = () =>
+        {
+            var target = characters.Where(c => c.Health > 0).OrderBy(c => c.Health).FirstOrDefault();
+            if (target != null && target.Health < 50)
+            {
+                Console.WriteLine($"{character.Name} is prioritizing healing for {target.Name} who has the lowest health.");
+                HealAction(character, target);
+            }
+            else
+            {
+                Console.WriteLine($"{character.Name} has no one to heal.");
+            }
+        };
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var characters = new List<Character>
+            {
+                new Character("Bran", 30),
+                new Character("Arin", 90),
+                new Character("Dalia", 70),
+                new Character("Cara", 70)
+            };
+            
+            var warriorRole = new WarriorRole();
+            var healerRole = new HealerRole();
+            
+            warriorRole.AssignPrimaryAction(characters[0], characters);
+            warriorRole.AssignPrimaryAction(characters[1], characters);
+            healerRole.AssignPrimaryAction(characters[2], characters);
+            warriorRole.AssignPrimaryAction(characters[3], characters);
+            
+            Console.WriteLine("Starting actions based on character health...\n");
+
+            foreach (var character in characters)
+            {
+                character.ExecutePrimaryAction();
+                Console.WriteLine($"{character.Name}'s health: {character.Health}");
+                Console.WriteLine();
+            }
+        }
     }
 }
