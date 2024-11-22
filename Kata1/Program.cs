@@ -20,17 +20,21 @@
     {
         static void Main()
         {
-            var warrior = new Character("Warrior", 100, targets =>
+            Character warrior = null;
+            Character healer = null;
+            Character enemy = null;
+
+            warrior = new Character("Warrior", 100, targets =>
             {
-                var enemy = targets.FirstOrDefault(c => c != null && c.Health > 0);
-                if (enemy != null)
+                var enemyTarget = targets.FirstOrDefault(c => c != null && c.Health > 0);
+                if (enemyTarget != null)
                 {
-                    Console.WriteLine($"{warrior.Name} attacks {enemy.Name}!");
-                    enemy.Health -= 20;
-                    Console.WriteLine($"{enemy.Name} now has {enemy.Health} health.");
+                    Console.WriteLine($"{warrior.Name} attacks {enemyTarget.Name}!");
+                    enemyTarget.Health -= 20;
+                    Console.WriteLine($"{enemyTarget.Name} now has {enemyTarget.Health} health.");
                 }
             });
-            var healer = new Character("Healer", 100, targets =>
+            healer = new Character("Healer", 100, targets =>
             {
                 var allyToHeal = targets.OrderBy(c => c.Health).FirstOrDefault(c => c.Health < 100);
                 if (allyToHeal != null)
@@ -40,12 +44,12 @@
                     Console.WriteLine($"{allyToHeal.Name} now has {allyToHeal.Health} health.");
                 }
             });
-            var enemy = new Character("Enemy", 80, _ =>
+            enemy = new Character("Enemy", 80, _ =>
             {
                 Console.WriteLine($"{enemy.Name} is preparing its next move...");
             });
             Character[] characters = { warrior, healer, enemy };
-
+            
             Console.WriteLine("Starting actions based on health priority...\n");
             foreach (var character in characters.OrderBy(ch => ch.Health < 50 ? 0 : 1))
             {
