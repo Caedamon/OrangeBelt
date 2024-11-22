@@ -1,20 +1,4 @@
-﻿// Requirements
-//
-//     Refined Character Creation with SRP:
-//
-// Maintain Warrior and Healer characters, but separate each action into its own CharacterRole class (e.g., WarriorRole, HealerRole) that contains specific behavior properties, following SRP.
-//     Encapsulate and Extend Actions Using OCP:
-//
-// Create specific Action properties within CharacterRole classes (e.g., AttackAction in WarriorRole and HealAction in HealerRole).
-//     HealerRole should contain a method or lambda to find and heal the character with the lowest health.
-//     Design the PrimaryAction as an Action that the character can perform independently based on health criteria, allowing new character roles to be added without modifying existing code.
-//     Dynamic Action Execution:
-//
-// Dynamically execute the lambda in PrimaryAction, prioritizing actions based on health and role.
-//     Expected Skill Outcome
-//
-//     See how SRP and OCP improve modularity and maintainability by splitting character behaviors into focused role classes.
-//     Extend code functionality (e.g., adding new character roles) without modifying existing code, showcasing the power of OCP in real-world applications.
+﻿//isnt this pretty much the same as the previous assignment?
 
 namespace Kata1_2
 {
@@ -36,18 +20,23 @@ namespace Kata1_2
         }
     }
 
+    //So... this interface is for primary action, it decides each role's acction depending on, well, context xD
     public interface ICharacterRole
     {
         void AssignPrimaryAction(Character character, List<Character> characters);
     }
 
+    
     public class WarriorRole : ICharacterRole
     {
+        //Setting up class-specific role, in this case for warriors and for attacking based logic
+        //wish id known this when i was making my text based arena xD
         private Action<Character> AttackAction => character =>
         {
             Console.WriteLine($"{character.Name} charges with a fierce attack!");
         };
-
+        
+        //same as befor, but more dynamic, ie its dependent on warr-health
         public void AssignPrimaryAction(Character character, List<Character> characters)
         {
             character.PrimaryAction = () =>
@@ -64,28 +53,32 @@ namespace Kata1_2
 
     public class HealerRole : ICharacterRole
     {
+        //same as for warrior, but healer based, do i really need to add this comment?
+        //it feels a bitt, excessive. but seriously, i do not know how to make good commentary on my code or where to add it
+        //Chastgtp said to "add commentary that describes why and not what"
         private Action<Character, Character> HealAction => (healer, target) =>
         {
             Console.WriteLine($"{healer.Name} heals {target.Name} for 15 health!");
             target.Health += 15;
         };
-    }
-    
-    public void AssignPrimaryAction(Character character, List<Character> characters)
-    {
-        character.PrimaryAction = () =>
+
+        public void AssignPrimaryAction(Character character, List<Character> characters)
         {
-            var target = characters.Where(c => c.Health > 0).OrderBy(c => c.Health).FirstOrDefault();
-            if (target != null && target.Health < 50)
+            character.PrimaryAction = () =>
             {
-                Console.WriteLine($"{character.Name} is prioritizing healing for {target.Name} who has the lowest health.");
-                HealAction(character, target);
-            }
-            else
-            {
-                Console.WriteLine($"{character.Name} has no one to heal.");
-            }
-        };
+                //this code segment firstly finds who needs to get healed and then who to prioritize based on the health of the target
+                var target = characters.Where(c => c.Health > 0).OrderBy(c => c.Health).FirstOrDefault();
+                if (target != null && target.Health < 50)
+                {
+                    Console.WriteLine($"{character.Name} is prioritizing healing for {target.Name} who has the lowest health.");
+                    HealAction(character, target);
+                }
+                else
+                {
+                    Console.WriteLine($"{character.Name} has no one to heal.");
+                }
+            };
+        }
     }
 
     class Program
@@ -99,17 +92,17 @@ namespace Kata1_2
                 new Character("Dalia", 70),
                 new Character("Cara", 70)
             };
-            
             var warriorRole = new WarriorRole();
             var healerRole = new HealerRole();
-            
+
             warriorRole.AssignPrimaryAction(characters[0], characters);
             warriorRole.AssignPrimaryAction(characters[1], characters);
             healerRole.AssignPrimaryAction(characters[2], characters);
             warriorRole.AssignPrimaryAction(characters[3], characters);
-            
+
             Console.WriteLine("Starting actions based on character health...\n");
 
+            //executing role's assigned primary action
             foreach (var character in characters)
             {
                 character.ExecutePrimaryAction();
