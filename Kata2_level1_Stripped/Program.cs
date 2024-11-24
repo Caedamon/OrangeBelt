@@ -25,6 +25,9 @@
 
 namespace Kata2_1
 {
+    //Delegate "can store a referance to any matching method = allows methods to be treated as objects"
+    //put it here because it provides flexibility and reusability (futureproofing, if you will)
+    //hardcoding it with a public interface would make it rigid and new actions cant be easily added.
     public delegate void CharacterAction(Character target);
 
     public class Character
