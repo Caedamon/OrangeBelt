@@ -65,4 +65,29 @@ namespace Kata2_1
             attackAction(target);
         }
     }
+
+    class Programm
+    {
+        static void Main(string[] args)
+        {
+            var warrior =? new Character("Warrior", 100);
+            var healer = new Character("Healer", 80);
+            
+            warrior.HealthChanged += character =>
+            {
+                Console.WriteLine($"Health update: {character.Name}'s health is now {character.Health}.");
+            };
+            
+            healer.HealthChanged += character =>
+            {
+                Console.WriteLine($"Health update: {character.Name}'s health is now {character.Health}.");
+            };
+            
+            Console.WriteLine("Battle begins...\n");
+            warrior.Attack(healer);
+            healer.Attack(warrior);
+
+            Console.WriteLine("\nBattle ends.");
+        }
+    }
 }
