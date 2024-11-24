@@ -66,11 +66,11 @@ namespace Kata2_1
         }
     }
 
-    class Programm
+    class Program
     {
         static void Main(string[] args)
         {
-            var warrior =? new Character("Warrior", 100);
+            var warrior = new Character("Warrior", 100);
             var healer = new Character("Healer", 80);
             
             warrior.HealthChanged += character =>
