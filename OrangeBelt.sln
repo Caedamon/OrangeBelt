@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kata1_Level1_Striped", "Kat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kata1_Level2_Orange", "Kata1_Level2_Orange\Kata1_Level2_Orange.csproj", "{F39EAB35-E10A-4E85-AA56-7D5743BC5AFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kata2_level1_Stripped", "Kata2_level1_Stripped\Kata2_level1_Stripped.csproj", "{C9F34C8B-9F3A-4CF4-AB22-F7624EA0D9EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{F39EAB35-E10A-4E85-AA56-7D5743BC5AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F39EAB35-E10A-4E85-AA56-7D5743BC5AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F39EAB35-E10A-4E85-AA56-7D5743BC5AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F34C8B-9F3A-4CF4-AB22-F7624EA0D9EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F34C8B-9F3A-4CF4-AB22-F7624EA0D9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F34C8B-9F3A-4CF4-AB22-F7624EA0D9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F34C8B-9F3A-4CF4-AB22-F7624EA0D9EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
