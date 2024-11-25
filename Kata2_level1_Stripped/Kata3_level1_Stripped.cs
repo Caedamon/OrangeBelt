@@ -31,7 +31,7 @@ namespace Kata3_1;
         string Name { get; set; }
         string Effect { get; set; }
     }
-    
+
     public class AttackAbility : IAbility
     {
         public string Name { get; set; }
@@ -43,7 +43,7 @@ namespace Kata3_1;
             Effect = effect;
         }
     }
-    
+
     public class HealAbility : IAbility
     {
         public string Name { get; set; }
@@ -55,6 +55,7 @@ namespace Kata3_1;
             Effect = effect;
         }
     }
+
     public class AbilityContainer<T> where T : IAbility
     {
         private List<T> abilities = new List<T>();
@@ -64,18 +65,48 @@ namespace Kata3_1;
             abilities.Add(ability);
             Console.WriteLine($"Added ability: {ability.Name}");
         }
-        
+
         public void RemoveAbility(T ability)
         {
-            if (abilities.Remove(ability))
+            if (abilities.RemoveAbility(T ability))
             {
                 Console.WriteLine($"Removed ability: {ability.Name}");
             }
             else
             {
-                Console.WriteLine($
+                Console.WriteLine($"Ability not found: {ability.Name}");
             }
         }
-        
+
+        public List<T> GetAbilities()
+        {
+            return abilities;
+        }
+
+        public void DisplayAbilities()
+        {
+            Console.WriteLine("Abilities in the container:");
+            foreach (var ability in abilities)
+            {
+                Console.WriteLine($"- {ability.Name}: {ability.Effect}");
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var abilityContainer = new AbilityContainer<>();
+            
+            var attackAbility = new AttackAbility("Fireball", "Deals 50 fire damage.");
+            var healAbility = new HealAbility("Healing Light", "Restores 30 health.");
+            
+            abilityContainer.AddAbility(attackAbility);
+            abilityContainer.AddAbility(healAbility);
+            abilityContainer.DisplayAbilities();
+            abilityContainer.RemoveAbility(healAbility);
+            abilityContainer.DisplayAbilities();
+        }
     }
 }
