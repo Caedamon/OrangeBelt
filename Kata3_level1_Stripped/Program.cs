@@ -1,9 +1,10 @@
 ﻿namespace Kata3_1
 {
     public interface IAbility
-    {
+    { 
         string Name { get; set; }
         string Effect { get; set; }
+        //personal question, is there a point to having { set; } if its never called on?
     }
 
     public class AttackAbility : IAbility
@@ -29,6 +30,10 @@
             Effect = effect;
         }
     }
+    
+    //interjection, tried setting set to private in both attack and heal ability classes
+    //as a curiosity since it would make sense since its not gona be changed once they are set.
+    //but that made the below code unable to access it and its to much work to go around to fix that o_O
 
     public class AbilityContainer<T> where T : IAbility
     {
@@ -63,8 +68,9 @@
             return abilities;
         }
 
-        public void DisplayAbilities() //changed this, previous would call on an empty container and display nothing,
-                                       //now itl show a message if the list is empty
+        public void DisplayAbilities() 
+            //changed this, previous would call on an empty container and display nothing,
+            //now itl show a message if the list is empty
         {
             if (abilities.Count == 0)
             {
@@ -81,6 +87,7 @@
     }
 
     class Program
+    //all this program does is add abilities, then print them, then remove one, then print remaining
     {
         static void Main(string[] args)
         {
