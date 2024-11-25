@@ -1,30 +1,4 @@
-// Kata 3 - Introduction to Templates (Generics)
-// Level 1 (Striped Yellow Belt)
-// Goal: Introduce generics (templates), without applying SOLID principles.
-//
-//     Requirements
-//
-//     Create a Generic Ability Container:
-//
-// Design a simple generic class called AbilityContainer<T> that can store abilities of different types.
-//     Implement methods to add, remove, and retrieve abilities from the container.
-//     Use generics to ensure type safety while allowing flexibility in the types of abilities stored.
-//     Ability Implementation:
-//
-// Define a base IAbility interface with properties like Name and Effect (both can be strings).
-//     Create at least two different ability classes inheriting from IAbility, such as AttackAbility and HealAbility.
-//     Instantiate abilities and add them to the AbilityContainer<T>.
-// Display Abilities:
-//
-// Implement a method to display all abilities stored in the container, showing their names and effects.
-//     Expected Skill Outcome
-//
-//     Understand the basics of generics and how to define a simple generic class.
-// Learn how generics provide type safety while allowing flexibility in the types of objects stored.
-//     Gain experience in adding, removing, and retrieving items from a generic container.
-
-
-namespace Kata3_1;
+﻿namespace Kata3_1
 {
     public interface IAbility
     {
@@ -60,15 +34,21 @@ namespace Kata3_1;
     {
         private List<T> abilities = new List<T>();
 
-        public void AddAbility(T ability)
+        public void AddAbility(T ability) //added this to make sure null values wouldnt be called
         {
+            if (ability == null)
+            {
+                Console.WriteLine("Cannot add a null ability.");
+                return;
+            }
+
             abilities.Add(ability);
             Console.WriteLine($"Added ability: {ability.Name}");
         }
 
         public void RemoveAbility(T ability)
         {
-            if (abilities.RemoveAbility(T ability))
+            if (abilities.Remove(ability))
             {
                 Console.WriteLine($"Removed ability: {ability.Name}");
             }
@@ -83,8 +63,15 @@ namespace Kata3_1;
             return abilities;
         }
 
-        public void DisplayAbilities()
+        public void DisplayAbilities() //changed this, previous would call on an empty container and display nothing,
+                                       //now itl show a message if the list is empty
         {
+            if (abilities.Count == 0)
+            {
+                Console.WriteLine("No abilities in the container.");
+                return;
+            }
+
             Console.WriteLine("Abilities in the container:");
             foreach (var ability in abilities)
             {
@@ -97,7 +84,7 @@ namespace Kata3_1;
     {
         static void Main(string[] args)
         {
-            var abilityContainer = new AbilityContainer<>();
+            var abilityContainer = new AbilityContainer<IAbility>();
             
             var attackAbility = new AttackAbility("Fireball", "Deals 50 fire damage.");
             var healAbility = new HealAbility("Healing Light", "Restores 30 health.");
